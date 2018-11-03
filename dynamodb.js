@@ -1,6 +1,8 @@
 var AWS = require('aws-sdk');
 AWS.config.update({
   region: 'ap-northeast-1',
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRETACCESS_KEY,
 });
 var dynamo = new AWS.DynamoDB.DocumentClient();
 
