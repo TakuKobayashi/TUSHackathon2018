@@ -1,0 +1,24 @@
+{
+  "name": "tushackathon2018",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TakuKobayashi",
+  "private": true,
+  "dependencies": {
+    "@line/bot-sdk": "*",
+    "aws-sdk": "*",
+    "request": "*",
+    "querystring": "*",
+    "underscore": "*",
+    "underscore.string": "*",
+    "dotenv": "*",
+    "express": "*",
+    "nodemon": "*",
+    "web3": "*"
+  },
+  "license": "MIT"
+}
