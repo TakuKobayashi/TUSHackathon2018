@@ -18,7 +18,9 @@
     "dotenv": "*",
     "express": "*",
     "nodemon": "*",
-    "web3": "*"
+    "web3": "*",
+    "ali-oss": "*",
+    "co": "*"
   },
   "license": "MIT"
 }
