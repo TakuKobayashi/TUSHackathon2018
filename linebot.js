@@ -1,8 +1,5 @@
 var line = require('@line/bot-sdk');
 
-var Restaurant = require(__dirname + '/restaurant.js');
-var restaurant = new Restaurant();
-
 var underscore = require('underscore');
 var underscoreString = require("underscore.string");
 
