@@ -34,7 +34,9 @@ exports.handler = function (event, context) {
       }), context);
     }else if(lineMessage.type == "postback"){
       var receiveData = JSON.parse(lineMessage.postback.data);
-      linebot.advanced_sequence(lineMessage.source.userId, receiveData)
+      callLambdaResponse(linebot.advanced_sequence(lineMessage.source.userId, receiveData).then(function(messageObj){
+        return lineClient.replyMessage(lineMessage.replyToken, messageObj);
+      }), context);
       console.log(receiveData);
     }else if(lineMessage.type == "message"){
       lineClient.replyMessage(lineMessage.replyToken, {
