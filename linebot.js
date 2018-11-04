@@ -107,7 +107,7 @@ var LineBot = function(accessToken){
           messageObj.text = "TOKEN HASHを入力するかQRコードを読み込んでください!!"
         }
         resolve(messageObj);
-      }
+      });
     });
   }
 
