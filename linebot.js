@@ -69,62 +69,58 @@ var LineBot = function(accessToken){
     return this.lineClient.createRichMenu({
       size:{
         width:2500,
-        height:843
+        height:1686
       },
       selected: true,
-      name: "HiwaiHubController",
-      chatBarText: "オプション",
+      name: "LostArticle",
+      chatBarText: "忘れ物回収メニュー",
       areas:[
         {
           bounds:{
             x:0,
             y:0,
-            width:2500,
-            height:443
+            width:1250,
+            height:843
           },
           action:{
-            type: "uri",
-            label: "本家PronHubに行く",
-            uri: "https://www.pornhub.com/"
+            type: "postback",
+            data: JSON.stringify({action: "start_register_token"})
           }
         },
         {
           bounds:{
-            x:0,
-            y:443,
-            width:833,
-            height:400
+            x:1250,
+            y:0,
+            width:1250,
+            height:843
           },
           action:{
-            type: "uri",
-            label: "仮想通貨Vergeを購入する",
-            uri: "https://www.binance.com/?ref=16721878"
+            type: "postback",
+            data: JSON.stringify({action: "check_registering"})
           }
         },
         {
           bounds:{
-            x:834,
-            y:443,
-            width:833,
-            height:400
+            x: 0,
+            y: 843,
+            width:1250,
+            height:843
           },
           action:{
-            type: "uri",
-            label: "日本円でBitCoinを購入する",
-            uri: "https://bitflyer.jp?bf=3mrjfos1"
+            type: "postback",
+            data: JSON.stringify({action: "check_wallet"})
           }
         },
         {
           bounds:{
-            x:1667,
-            y:443,
-            width:833,
-            height:400
+            x: 1250,
+            y: 843,
+            width:1250,
+            height:843
           },
           action:{
-            type: "message",
-            label: "Vergeで寄付する",
-            text: "D6NkyiFL9rvqu8bjaSaqwD9gr1cwQRbiu6"
+            type: "postback",
+            data: JSON.stringify({action: "announce_lost"})
           }
         }
       ]
