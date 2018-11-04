@@ -1,3 +1,8 @@
+// /tmp/の場所にだけlambdaでは新しくファイルを作ることができるので
+var SAVEFILEROOTPATH = "/tmp/";
+
+var uuid = require('uuid/v4');
+
 var LineBot = require(__dirname + '/linebot.js');
 
 var callLambdaResponse = function(promise, context){

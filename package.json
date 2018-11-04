@@ -20,7 +20,8 @@
     "nodemon": "*",
     "web3": "*",
     "ali-oss": "*",
-    "co": "*"
+    "co": "*",
+    "qrcode": "*"
   },
   "license": "MIT"
 }
