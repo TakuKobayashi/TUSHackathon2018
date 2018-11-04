@@ -15,22 +15,22 @@ var dynamodb = new DynamoDB();
 var LineBot = function(accessToken){
   this.lineClient = new line.Client({channelAccessToken: accessToken});
 
-  this.getUserProfile = function(user_id){
-    return this.lineClient.getProfile(user_id);
+  this.getUserProfile = function(userId){
+    return this.lineClient.getProfile(userId);
   }
 
-  this.follow = function(user_id, timestamp) {
-    var userProfileObj = {userId: user_id};
-    return this.getUserProfile(user_id).then(function(profile){
+  this.follow = function(userId, timestamp) {
+    var userProfileObj = {userId: userId};
+    return this.getUserProfile(userId).then(function(profile){
       userProfileObj = Object.assign(userProfileObj, profile);
-      return dynamodb.getPromise("users", {user_id: user_id});
+      return dynamodb.getPromise("users", {user_id: userId});
     }).then(function(userData){
       if(userData.Item){
         var updateObject = {
           updated_at: timestamp
         }
         updateObject[applicationName] = userStatusEnum.follow
-        return dynamodb.updatePromise("users", {user_id: user_id}, updateObject);
+        return dynamodb.updatePromise("users", {user_id: userId}, updateObject);
       }else{
         var insertObject = {
           user_id: userProfileObj.userId,
@@ -45,29 +45,29 @@ var LineBot = function(accessToken){
     });
   }
 
-  this.unfollow = function(user_id, timestamp) {
-    return dynamodb.getPromise("users", {user_id: user_id}).then(function(userData){
+  this.unfollow = function(userId, timestamp) {
+    return dynamodb.getPromise("users", {user_id: userId}).then(function(userData){
       if(userData.Item){
         var updateObject = {
           updated_at: timestamp
         }
         updateObject[applicationName] = userStatusEnum.unfollow
-        return dynamodb.updatePromise("users", {user_id: user_id}, updateObject);
+        return dynamodb.updatePromise("users", {user_id: userId}, updateObject);
       }
     });
   }
 
   this.advanced_sequence = function(userId, postbackObj){
     var userProfileObj = {userId: userId};
-    return this.getUserProfile(user_id).then(function(profile){
+    return this.getUserProfile(userId).then(function(profile){
       userProfileObj = Object.assign(userProfileObj, profile);
-      return dynamodb.getPromise("users", {user_id: user_id});
+      return dynamodb.getPromise("users", {user_id: userId});
     }).then(function(userData){
       var beforeAction = userData.Item.beforeAction;
       var updateObject = {
         beforeAction: postbackObj.action
       }
-      return dynamodb.updatePromise("users", {user_id: user_id}, updateObject);
+      return dynamodb.updatePromise("users", {user_id: userId}, updateObject);
     }).then(function(){
       return new Promise((resolve, reject) => {
         var messageObj = {}
