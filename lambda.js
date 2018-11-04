@@ -34,6 +34,7 @@ exports.handler = function (event, context) {
       }), context);
     }else if(lineMessage.type == "postback"){
       var receiveData = JSON.parse(lineMessage.postback.data);
+      linebot.advanced_sequence(lineMessage.source.userId, receiveData)
       console.log(receiveData);
     }else if(lineMessage.type == "message"){
       lineClient.replyMessage(lineMessage.replyToken, {

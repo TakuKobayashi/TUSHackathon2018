@@ -57,6 +57,59 @@ var LineBot = function(accessToken){
     });
   }
 
+  this.advanced_sequence = function(userId, postbackObj){
+    var userProfileObj = {userId: userId};
+    return this.getUserProfile(user_id).then(function(profile){
+      userProfileObj = Object.assign(userProfileObj, profile);
+      return dynamodb.getPromise("users", {user_id: user_id});
+    }).then(function(userData){
+      var beforeAction = userData.Item.beforeAction;
+      var updateObject = {
+        beforeAction: postbackObj.action
+      }
+      return dynamodb.updatePromise("users", {user_id: user_id}, updateObject);
+    }).then(function(){
+      return new Promise((resolve, reject) => {
+        var messageObj = {}
+        if(postbackObj.action == "start_register_token"){
+          messageObj.type = "text"
+          messageObj.text = "謝礼の金額をいくらにしますか?(ETH)"
+        }else if(postbackObj.action == "check_registering"){
+          messageObj.type = "template"
+          messageObj.altText = "現在登録されているものはこちらです"
+          messageObj.template = {
+            type: "carousel",
+            columns: underscore.map([{
+              qrcode_url: "https://promonorge.no/wp-content/themes/promowp/framework/etc/image.php?src=https://promonorge.no/wp-content/uploads/importedmedia/qr-markedsforing.jpg&w=auto&h=auto&zc=1&a=c&f=0&q=100",
+              resource_id: "aaaaa",
+              status: "bbbb",
+              price: 0,
+            }], function(resource){
+              var carouselActions = []
+              carouselActions.push({
+                type: "postback",
+                label: "「なくした」ステータスにする",
+                data: JSON.stringify({action: "change_state"})
+              });
+              return {
+                thumbnailImageUrl: resource.qrcode_url,
+                title: "ID: " + resource.resource_id + " に登録さてている情報",
+                text: "現在のステータス: " + resource.status + "\n謝礼金額(ETH): " + resource.price,
+                actions: carouselActions.slice(0,3),
+              }
+            })
+          }
+        }else if(postbackObj.action == "check_wallet"){
+          messageObj.type = "text"
+          messageObj.text = "WalletのAddress: XXXXXXXXXXXX\n現在の金額: 0ETH"
+        }else if(postbackObj.action == "announce_lost"){
+          messageObj.type = "text"
+          messageObj.text = "TOKEN HASHを入力するかQRコードを読み込んでください!!"
+        }
+        resolve(messageObj);
+    });
+  }
+
   this.linkRichMenu = function(userId, richMenuId){
     return this.lineClient.linkRichMenuToUser(userId, richMenuId)
   }
